@@ -1,7 +1,7 @@
-﻿using Ganss.XSS;
-using LearningSystem.Areas.Blog.Models.Articles;
+﻿using LearningSystem.Areas.Blog.Models.Articles;
 using LearningSystem.Data.Models;
 using LearningSystem.Infrastructure.Filters;
+using LearningSystem.Infrastructure.Extentions;
 using LearningSystem.Services.Blog;
 using LearningSystem.Services.Html;
 using Microsoft.AspNetCore.Authorization;
@@ -40,6 +40,10 @@ namespace LearningSystem.Areas.Blog.Controllers
                 CurrentPage = page
             });
         }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> Details(int id)
+            => this.ViewOrNotFound(await this.articles.ById(id));
 
         [HttpPost]
         [ValidateModelState]

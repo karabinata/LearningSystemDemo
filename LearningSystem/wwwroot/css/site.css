@@ -26,12 +26,20 @@
     margin: 15px;
 }
 
-.article-list li{
-    margin-bottom: 25px;
+.article-list li {
+    margin-bottom: 15px;
 }
 
-.pagionation li.disabled a {
+.pagination li.disabled a {
     pointer-events: none;
+}
+
+.home-jumbotron{
+    margin-top: 50px;
+}
+
+.home-page .img-responsive{
+    height: 200px !important;
 }
 
 /* Hide/rearrange for smaller screens */

@@ -41,6 +41,8 @@ namespace LearningSystem
 
             services.AddDomainServices();
 
+            services.AddRouting(routing => routing.LowercaseUrls = true);
+
             services.AddMvc(options => 
             {
                 options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
@@ -60,7 +62,7 @@ namespace LearningSystem
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/home/error");
             }
 
             app.UseStaticFiles();
@@ -69,6 +71,16 @@ namespace LearningSystem
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "profile",
+                    template: "profile/{username}",
+                    defaults: new { controller = "Users", action = "Profile" });
+
+                routes.MapRoute(
+                name: "blog",
+                template: "blog/articles/{id}/{title}",
+                defaults: new { area = "Blog", controller = "Articles", action = "Details"} );
+
                 routes.MapRoute(
                 name: "areas",
                 template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");

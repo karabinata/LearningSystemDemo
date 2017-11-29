@@ -1,19 +1,26 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using LearningSystem.Models;
+using LearningSystem.Services;
+using System.Threading.Tasks;
 
 namespace LearningSystem.Controllers
 {
     public class HomeController : Controller
     {
-        public IActionResult Index()
+        private readonly ICourseService courses;
+
+        public HomeController(ICourseService courses)
         {
-            return View();
+            this.courses = courses;
         }
 
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+        public async Task<IActionResult> Index() => View(await this.courses.ActiveAsync());
+
+        public IActionResult Error() 
+            => View(new ErrorViewModel
+                {
+                    RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier
+                });
     }
 }

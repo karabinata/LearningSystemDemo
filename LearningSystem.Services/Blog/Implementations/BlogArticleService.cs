@@ -28,6 +28,13 @@ namespace LearningSystem.Services.Blog.Implementations
                 .ProjectTo<BlogArticleListingServiceModel>()
                 .ToListAsync();
 
+        public async Task<BlogArticleDetailsServiceModel> ById(int id)
+            => await this.db
+                .Articles
+                .Where(a => a.Id == id)
+                .ProjectTo<BlogArticleDetailsServiceModel>()
+                .FirstOrDefaultAsync();
+
         public async Task CreateAsync(string title, string content, string authorId)
         {
             var article = new Article

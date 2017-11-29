@@ -10,6 +10,8 @@ namespace LearningSystem.Services.Blog
 
         Task<int> TotalAsync();
 
+        Task<BlogArticleDetailsServiceModel> ById(int id);
+
         Task CreateAsync(string title, string content, string authorId);
     }
 }

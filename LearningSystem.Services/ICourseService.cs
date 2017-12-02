@@ -8,12 +8,16 @@ namespace LearningSystem.Services
     {
         Task<IEnumerable<CourseListingServiceModel>> ActiveAsync();
 
-        Task<CourseDetailsServiceModel> ByIdAsync(int id);
+        Task<IEnumerable<CourseListingServiceModel>> FindAsync(string searchText);
+
+        Task<TModel> ByIdAsync<TModel>(int id) where TModel : class;
 
         Task<bool> SignUpStudentAsync(int courseId, string studentId);
 
         Task<bool> SignOutStudentAsync(int id, string studentId);
 
         Task<bool> StudentIsEnrolledInCourseAsync(int courseId, string userId);
+
+        Task<bool> SaveExamSubmission(int courseId, string studentId, byte[] examSubmission);
     }
 }

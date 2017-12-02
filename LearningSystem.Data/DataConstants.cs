@@ -9,5 +9,7 @@
         public const int UserNameMaxLength = 100;
 
         public const int CourseNameMaxLength = 50;
+
+        public const int CourseExamSubmissionFileLength = 2 * 1024 * 1024;
     }
 }

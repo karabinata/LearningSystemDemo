@@ -38,6 +38,11 @@
                         <li><a asp-area="Admin" asp-controller="Courses" asp-action="Create">Create Course</a></li>
                     }
 
+                    @if (User.IsInRole(WebConstants.TrainerRole))
+                    {
+                        <li><a asp-area="" asp-controller="Trainer" asp-action="Courses">Trainer Panel</a></li>
+                    }
+
                     @if (User.IsInRole(WebConstants.BlogAuthorRole))
                     {
                         <li><a asp-area="Blog" asp-controller="Articles" asp-action="Create">Publish article</a></li>
@@ -52,6 +57,13 @@
         {
             <div class="alert alert-success">
                 @TempData[WebConstants.TempDataSuccessMessageKey]
+            </div>
+        }
+
+        @if (TempData.ContainsKey(WebConstants.TempDataErrorMessageKey))
+        {
+            <div class="alert alert-danger">
+                @TempData[WebConstants.TempDataErrorMessageKey]
             </div>
         }
 

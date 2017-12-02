@@ -27,11 +27,23 @@ namespace LearningSystem.Services.Implementation
                 .ProjectTo<CourseListingServiceModel>()
                 .ToListAsync();
 
-        public async Task<CourseDetailsServiceModel> ByIdAsync(int id)
+        public async Task<IEnumerable<CourseListingServiceModel>> FindAsync(string searchText)
+        {
+            searchText = searchText ?? string.Empty;
+
+            return await this.db
+                .Courses
+                .OrderByDescending(c => c.Id)
+                .Where(c => c.Name.ToLower().Contains(searchText.ToLower()))
+                .ProjectTo<CourseListingServiceModel>()
+                .ToListAsync();
+        }
+
+        public async Task<TModel> ByIdAsync<TModel>(int id) where TModel : class
             => await this.db
                 .Courses
                 .Where(c => c.Id == id)
-                .ProjectTo<CourseDetailsServiceModel>()
+                .ProjectTo<TModel>()
                 .FirstOrDefaultAsync();
         
         public async Task<bool> SignUpStudentAsync(int courseId, string studentId)
@@ -93,5 +105,22 @@ namespace LearningSystem.Services.Implementation
                     UserIsEnrolledInCourse = c.Students.Any(s => s.StudentId == studentId)
                 })
                 .FirstOrDefaultAsync();
+
+        public async Task<bool> SaveExamSubmission(int courseId, string studentId, byte[] examSubmission)
+        {
+            var studentInCouse = await this.db
+                .FindAsync<StudentCourse>(studentId, courseId);
+
+            if (studentInCouse == null)
+            {
+                return false;
+            }
+
+            studentInCouse.ExamSubmission = examSubmission;
+
+            await this.db.SaveChangesAsync();
+
+            return true;
+        }
     }
 }

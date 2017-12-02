@@ -51,6 +51,8 @@ namespace LearningSystem.Controllers
             var model = new IndexViewModel
             {
                 Username = user.UserName,
+                Name = user.Name,
+                Birthdate = user.Birthdate,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
                 IsEmailConfirmed = user.EmailConfirmed,
@@ -93,6 +95,24 @@ namespace LearningSystem.Controllers
                 {
                     throw new ApplicationException($"Unexpected error occurred setting phone number for user with ID '{user.Id}'.");
                 }
+            }
+
+            var nameIsChanged = model.Name != user.Name;
+            var birthdateIsChanged = model.Birthdate != user.Birthdate;
+
+            if (nameIsChanged)
+            {
+                user.Name = model.Name;
+            }
+
+            if (birthdateIsChanged)
+            {
+                user.Birthdate = model.Birthdate;
+            }
+
+            if (nameIsChanged || birthdateIsChanged)
+            {
+                await this._userManager.UpdateAsync(user);
             }
 
             StatusMessage = "Your profile has been updated";

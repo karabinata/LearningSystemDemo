@@ -1,4 +1,5 @@
 ﻿using LearningSystem.Services.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace LearningSystem.Services
@@ -6,5 +7,7 @@ namespace LearningSystem.Services
     public interface IUserService
     {
         Task<UserProfileServiceModel> ProfileAsync(string username);
+
+        Task<IEnumerable<UserListingServiceModel>> FindAsync(string searchText);
     }
 }

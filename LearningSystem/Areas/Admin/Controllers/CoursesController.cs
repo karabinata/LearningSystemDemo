@@ -43,7 +43,7 @@ namespace LearningSystem.Areas.Admin.Controllers
                 return View(model);
             }
 
-            await this.courses.Create(model.Name, model.Description, model.StartDate, model.EndDate, model.TrainerId);
+            await this.courses.Create(model.Name, model.Description, model.StartDate, model.EndDate.AddDays(1), model.TrainerId);
 
             TempData.AddSuccessMessage("Course created successfully.");
 
